@@ -8,6 +8,7 @@ import App from "./App.tsx"
 import { AuthProvider } from "@/lib/auth"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,7 +25,9 @@ createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <AuthProvider>
-            <App />
+            <TooltipProvider>
+              <App />
+            </TooltipProvider>
             <Toaster richColors position="top-right" />
           </AuthProvider>
         </BrowserRouter>
