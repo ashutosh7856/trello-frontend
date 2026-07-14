@@ -48,6 +48,17 @@ export function useSpace(spaceId: string | undefined) {
   })
 }
 
+export function useSpaceInvites(spaceId: string | undefined, enabled = true) {
+  return useQuery({
+    queryKey: ["space-invites", spaceId],
+    enabled: enabled && Boolean(spaceId),
+    queryFn: async () => {
+      const { data } = await api.get<Invite[]>(`/space/invites/${spaceId}`)
+      return data
+    },
+  })
+}
+
 export function useBoard(spaceId: string, boardId: string, enabled = true) {
   return useQuery({
     queryKey: ["board", spaceId, boardId],
