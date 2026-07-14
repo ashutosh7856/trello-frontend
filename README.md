@@ -1,32 +1,60 @@
-# React + TypeScript + Vite
+# Flowboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A Trello-style team workspace built on React. Organize work into **spaces**,
+break each space into **boards**, and track tasks as **cards** that move through
+_To do → In progress → Done_. Spaces are shared through email invitations, with
+role-based access (admins manage boards and members, members work the cards).
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Email/password and Google OAuth sign-in (httpOnly cookie session)
+- Dashboard of every space you own or collaborate on
+- Board view with columns, cards, statuses and assignees
+- Create/edit/assign cards; admins manage boards and membership
+- Invite teammates by email and accept/decline invites from an inbox
+- Light/dark theme, with toasts and loading states throughout
 
-## React Compiler
+## Tech stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19** + **TypeScript** + **Vite**
+- **Tailwind CSS v4** + **shadcn/ui** (Base UI primitives)
+- **TanStack Query** for server state
+- **React Router** for routing
+- **React Hook Form** + **Zod** for forms and validation
+- **Axios** for the API client
 
-## Expanding the Oxlint configuration
+## Getting started
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+pnpm install
+cp .env.example .env   # point VITE_API_ORIGIN at your backend
+pnpm dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+The app runs on http://localhost:5173 and expects the API at
+`VITE_API_ORIGIN` (default `http://localhost:3001`). Because auth uses an
+httpOnly cookie, the API must allow credentialed CORS from the app origin.
+
+## Scripts
+
+| Command        | Description                         |
+| -------------- | ----------------------------------- |
+| `pnpm dev`     | Start the Vite dev server           |
+| `pnpm build`   | Type-check and build for production  |
+| `pnpm preview` | Preview the production build        |
+
+## Project structure
+
+```
+src/
+  components/        Shared UI, app shell, board + auth building blocks
+    ui/              shadcn/ui components
+    board/           Board columns, cards, dialogs
+  lib/               API client, query hooks, auth context, types
+  pages/             Route-level screens
+```
+
+## Roadmap
+
+- Real-time board updates over WebSockets so every member sees changes live
+- Drag-and-drop card ordering across boards
